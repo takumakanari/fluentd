@@ -32,6 +32,18 @@ module Fluent
 
     def configure(conf)
       super
+      if @unix_path
+        if File.exists?(@unix_path)
+          if !File.writable?(@unix_path)
+            raise ConfigError, "in_debug_agent: `#{@unix_path}` is not writable."
+          end
+        else
+          unix_path_dirname = File.dirname(@unix_path) 
+          if !File.writable?(unix_path_dirname)
+            raise ConfigError, "in_debug_agent: `#{unix_path_dirname}` directory is not writable."
+          end
+        end
+      end
     end
 
     def start
