@@ -229,6 +229,10 @@ module Fluent::Config
         "ignores spacing around element argument" => [root(e("test", "a")), %[
           <test    a    >
           </test>
+        ]],
+        "accepts spacing inside element argument (for multiple tags)" => [root(e("test", "a.** b.**")), %[
+          <test    a.** b.**   >
+          </test>
         ]])
       def test_parse_element(data)
         expected, target = data
